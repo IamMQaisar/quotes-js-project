@@ -19,6 +19,8 @@ NEWSPIDER_MODULE = 'quotes_js_scraper.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+SPLASH_URL = 'http://localhost:8050'
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -53,7 +55,19 @@ ROBOTSTXT_OBEY = True
 #DOWNLOADER_MIDDLEWARES = {
 #    'quotes_js_scraper.middlewares.QuotesJsScraperDownloaderMiddleware': 543,
 #}
+# Enable Splash downloader Middleware and change HttpCompressionMiddleware priority
+DOWNLOADER_MIDDLEWARES={
+    'scrapy_splash.SplashCookiesMiddleware': 723,
+    'scrapy_splash.SplashMiddleware' : 725,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+}
+# Enable Splash Duplicate Args Filter
+SPIDER_MIDDLEWARES={
+    'scrapy_splash.SplashDeduplicateArgsMiddleware' : 100
+}
 
+# Define the Splash DupeFilter Class
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
