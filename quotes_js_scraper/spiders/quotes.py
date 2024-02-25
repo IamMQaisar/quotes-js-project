@@ -10,13 +10,11 @@ class QuotesSpider(scrapy.Spider):
     # def parse(self, response):
     #     pass
     def start_requests(self):
-        url='http://quotes.toscrape.com/js'
+        url='https://hackerone.com/reports/925513'
         yield SplashRequest(url, callback=self.parse)
         
     def parse(self, response):
         quote_item = QuoteItem()
-        for quote in response.css('div.quote'):
-            quote_item['author'] = quote.css('small.author::text').get()
-            quote_item['text'] = quote.css('span.text::text').get()
-            quote_item['tags'] = quote.css('div.tags a.tag::text').getall()
+        for item in response.css('div .report-card'):
+            quote_item['author'] = item.css('div .interactive_markdown__p').get()
             yield quote_item
